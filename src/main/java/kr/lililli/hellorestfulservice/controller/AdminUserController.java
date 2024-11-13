@@ -27,7 +27,7 @@ public class AdminUserController {
 
 
   //  @GetMapping("/v1/user/{id}")
-  @GetMapping(value = "/user/{id}", params = "version=1")
+  @GetMapping(value = "/user/{id}", headers = "X-API-VERSION=1")
   public MappingJacksonValue getUser4Admin(@PathVariable int id) {
     User user = userDaoService.findOne(id);
 
@@ -55,7 +55,7 @@ public class AdminUserController {
   }
 
 
-  @GetMapping(value = "/user/{id}", params = "version=2")
+  @GetMapping(value = "/user/{id}", headers = "X-API-VERSION=2")
   public MappingJacksonValue getUser4AdminV2(@PathVariable int id) {
     User user = userDaoService.findOne(id);
 
