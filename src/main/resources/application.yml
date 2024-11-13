@@ -1,0 +1,4 @@
+--- # 다국어 처리
+spring:
+  messages:
+    basename: messages/messages
