@@ -6,6 +6,8 @@ import java.util.List;
 import kr.lililli.hellorestfulservice.bean.User;
 import kr.lililli.hellorestfulservice.dao.UserDaoService;
 import kr.lililli.hellorestfulservice.exception.UserNotFoundException;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,13 +32,18 @@ public class UserController {
   }
 
   @GetMapping("/user/{id}")
-  public User getUser(@PathVariable int id) throws Exception {
+  public EntityModel<User> getUser(@PathVariable int id) throws Exception {
     User user = userDaoService.findOne(id);
     if (user == null) {
 //      throw new Exception(String.format("ID[%s] not found", id));
       throw new UserNotFoundException(String.format("ID[%s] not found", id));
     }
-    return user;
+    EntityModel<User> model = EntityModel.of(user);
+    WebMvcLinkBuilder linkTo = WebMvcLinkBuilder.linkTo(
+        WebMvcLinkBuilder.methodOn(this.getClass()).getUsers());
+    model.add(linkTo.withRel("all-users"));
+    
+    return model;
   }
 
   @PostMapping("/user")
