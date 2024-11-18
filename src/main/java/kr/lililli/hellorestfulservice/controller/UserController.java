@@ -1,5 +1,10 @@
 package kr.lililli.hellorestfulservice.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import java.net.URI;
 import java.util.List;
@@ -18,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 @RestController
+@Tag(name = "User 컨트롤러", description = "사용자 정보를 다루는 API")
 public class UserController {
 
   private final UserDaoService userDaoService;
@@ -26,13 +32,24 @@ public class UserController {
     this.userDaoService = userDaoService;
   }
 
+
   @GetMapping("/users")
   public List<User> getUsers() {
     return userDaoService.findAll();
   }
 
+
+  @Operation(summary = "사용자 조회", description = "사용 자을 조회합니다.")
+  @ApiResponses({
+      @ApiResponse(responseCode = "200", description = "사용자 조회 성공"),
+      @ApiResponse(responseCode = "500", description = "서버 오류 발생"),
+      @ApiResponse(responseCode = "400", description = "잘못된 요청입니다."),
+      @ApiResponse(responseCode = "404", description = "사용자 목록이 없습니다.")
+  })
   @GetMapping("/user/{id}")
-  public EntityModel<User> getUser(@PathVariable int id) throws Exception {
+  public EntityModel<User> getUser(
+      @Parameter(description = "사용자 ID", required = true, example = "1") @PathVariable int id)
+      throws Exception {
     User user = userDaoService.findOne(id);
     if (user == null) {
 //      throw new Exception(String.format("ID[%s] not found", id));
@@ -42,7 +59,7 @@ public class UserController {
     WebMvcLinkBuilder linkTo = WebMvcLinkBuilder.linkTo(
         WebMvcLinkBuilder.methodOn(this.getClass()).getUsers());
     model.add(linkTo.withRel("all-users"));
-    
+
     return model;
   }
 

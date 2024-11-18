@@ -2,3 +2,10 @@
 spring:
   messages:
     basename: messages/messages
+
+--- # 시큐리티 기본 ID 설정
+#spring:
+#  security:
+#    user:
+#      name: user
+#      password: 1234
