@@ -5,12 +5,12 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Size;
 import java.util.Date;
-
-
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -34,4 +34,14 @@ public class User {
   @Past(message = "미래의 일자는 입력할 수 없습니다.")
   private Date joinDate;
   private String ssn;
+
+  @OneToMany(mappedBy = "user")
+  private List<Post> posts;
+
+  public User(Integer id, String name, Date joinDate, String ssn) {
+    this.id = id;
+    this.name = name;
+    this.joinDate = joinDate;
+    this.ssn = ssn;
+  }
 }

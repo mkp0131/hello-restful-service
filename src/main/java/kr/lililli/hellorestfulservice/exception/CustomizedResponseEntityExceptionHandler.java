@@ -28,16 +28,14 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
   }
 
   @ExceptionHandler(UserNotFoundException.class)
-  public final ResponseEntity<?> handleUserNotFoundException(Exception ex,
-      WebRequest request) {
+  public final ResponseEntity<?> handleUserNotFoundException(Exception ex, WebRequest request) {
     ExceptionResponse exceptionResponse = new ExceptionResponse();
     exceptionResponse.setTimestamp(new Date());
     exceptionResponse.setMessage(ex.getMessage());
     exceptionResponse.setDetails(request.getDescription(false));
 
     System.out.println("@@@@@@@@@@@@handleUserNotFoundException");
-    return new ResponseEntity<>(exceptionResponse,
-        HttpStatus.NOT_FOUND);
+    return new ResponseEntity<>(exceptionResponse, HttpStatus.NOT_FOUND);
   }
 
   @Override
@@ -55,8 +53,7 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
     exceptionResponse.setDetails(request.getDescription(false));
 
     System.out.println("@@@@@@@@@@@@handleUserNotFoundException");
-    return new ResponseEntity<>(exceptionResponse,
-        HttpStatus.BAD_REQUEST);
+    return new ResponseEntity<>(exceptionResponse, HttpStatus.BAD_REQUEST);
   }
 
   @Override

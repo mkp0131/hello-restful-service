@@ -28,3 +28,11 @@ spring:
       ddl-auto: create-drop
     show-sql: true
     defer-datasource-initialization: true
+
+--- # 개발자 도구 설정
+spring:
+  devtools:
+    livereload:
+      enabled: false
+    restart:
+      enabled: false
